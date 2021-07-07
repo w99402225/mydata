@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2 th:text="${store.sname}"></h2>
+<a href="/storepage">返回店铺列表</a>
+<table>
+    <tr th:each="goods,goodsstat: ${goodslist}"  th:if="${goodsstat.index} ge ${startflag} and ${goodsstat.index} lt ${endflag}">
+        <td>
+            <table width="923px" height="655px" border="10px" background="../static/imgs/kuang.png">
+                <tr>
+                    <td align="center" width="300px"><img alt="imgs/0.jpg"th:src="@{../static/imgs/{img}(img=${goods.img})}" width="80%"/></td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td align="left" width="400px"><span th:text="${goods.gname}"></span><br/><span th:text="'价格：'+${goods.price}+'￥'"></span></td>
+                                <td align="center">
+                                    <form action="/cart/addcart" method="post">
+                                        <input type="hidden" name="goods_id" th:value="${goods.id}">
+                                        数量：<input type="text" name="amount" size="8">
+                                        <input type="image" src="../static/imgs/addcart.jpg" style="width:80%" value="添加到购物车">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr><td th:text="${goods.gdesc}"></td></tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr><td colspan="2" align="center">店铺：<span th:text="${store.sname}"></span></td></tr>
+            </table>
+        </td>
+    </tr><tr>
+</tr>
+</table>
+<div align="center">
+    <a href="/goods/1"><img alt="首页" src="../static/img/fpage.png" height="50px"></a>
+    <a href="/goods/${sessionScope.pagesize-1}" th:href="@{/goods/{page}(page=${count}-1)}"><img alt="上一页" src="../static/img/ppage.png" height="50px"></a>
+    <a href="/goods/${sessionScope.pagesize+1}" th:href="@{/goods/{page}(page=${count}+1)}"><img alt="下一页" src="../static/img/npage.png" height="50px"></a>
+    <a href="/goods/<%=totalpage%>" th:href="@{/goods/{page}(page=${totalpage})}"><img alt="尾页" src="../static/img/lpage.png" height="50px"></a>
+</div>
+</body>
+</html>

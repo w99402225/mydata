@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/page.css" rel="stylesheet" />
+</head>
+<body>
+<a href="/user/login" target="_parent">返回登录界面</a>
+<h2>查询用户订单：</h2>
+<form action="/manager_userafford" method="get">
+    <input type="text" name="userid" placeholder="查询用户id">
+    <button>提交</button>
+</form>
+<h2>用户列表</h2>
+<table class="mypage">
+    <tr>
+        <th width="80">用户id</th>
+        <th width="80">用户名</th>
+        <th width="80">用户身份</th>
+        <th width="80">操作</th>
+    </tr>
+    <tr th:each="user,userstat: ${userlist}">
+        <td class="tr"><span th:text="${user.id}"></span></td>
+        <td class="tr"><span th:text="${user.username}"></span></td>
+        <td class="tr"><div th:if="${user.type}=='0'">管理员</div><div th:if="${user.type}=='1'">普通用户</div><div th:if="${user.type}=='2'">商家</div></td>
+        <td class="tr"><a th:href="@{javascript:del({user_id})(user_id=${user.id})}">删除</a></td>
+    </tr>
+</table>
+<h2>商家关联用户账号</h2>
+<table class="mypage">
+    <tr>
+        <th width="80">商家id</th>
+        <th width="80">商家名</th>
+        <th width="80">商家关联用户账号</th>
+        <th width="80">操作</th>
+    </tr>
+    <tr th:each="store,storestat: ${storelist}">
+        <td class="tr"><span th:text="${store.id}"></span></td>
+        <td class="tr"><span th:text="${store.sname}"></span></td>
+        <td class="tr"><div th:if="${store.userid} ne null"><div th:text="${store.userid}"></div> </div><div th:if="${store.userid} eq null">无</div></td>
+        <td class="tr">
+            <form action="/addusertostore">
+                <input name="storeid" type="hidden" th:value="${store.id}">
+                <input name="userid" type="text" placeholder="用户id">
+                <button>提交</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+<script>
+    function del(id){
+        if(confirm("确认删除")){
+            window.location.href="/deleteUser/"+id;
+        }
+    }
+</script>

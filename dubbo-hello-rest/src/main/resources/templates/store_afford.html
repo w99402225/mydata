@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/page.css" rel="stylesheet" />
+</head>
+<body>
+<a href="/user/login" target="_parent">返回登录界面</a>
+<h2>待处理订单</h2>
+<table class="mypage">
+    <tr>
+        <th width="280">商品图</th>
+        <th width="80">商品名</th>
+        <th width="80">总价</th>
+        <th width="80">数量</th>
+        <th width="80">下单时间</th>
+        <th width="80">客户名</th>
+        <th width="80">客户地址</th>
+        <th width="80">操作</th>
+    </tr>
+    <tr th:each="afford,affordstat: ${affordlist}">
+        <td class="tr"><img th:src="@{../static/imgs/{goods_img}(goods_img=${afford.goods_id.img})}" width=80% ></td>
+        <td class="tr" th:text="${afford.goods_id.gname}"></td>
+        <td class="tr"th:text="${afford.price}+'￥'"></td>
+        <td class="tr"th:text="${afford.amount}"></td>
+        <td class="tr"th:text="${afford.buytime}"></td>
+        <td class="tr"th:text="${afford.user_id.username}"></td>
+        <td class="tr"th:text="${afford.address}"></td>
+        <td class="tr"><a th:href="@{javascript:send({afford_id})(afford_id=${afford.id})}">发货</a></td>
+    </tr>
+</table>
+<h2>商品管理</h2>
+<table class="mypage">
+    <tr>
+        <th width="80">商品id</th>
+        <th width="280">商品图</th>
+        <th width="80">商品名</th>
+        <th width="80">商品描述</th>
+        <th width="80">商品价格</th>
+        <th width="80">商品状态</th>
+        <th colspan="2">操作</th>
+    </tr>
+    <tr th:each="goods,goodstat: ${goodslist}">
+        <form action="/store_goods_update">
+        <td class="tr" th:text="${goods.id}"></td>
+            <input type="hidden" name="goods_id" th:value="${goods.id}">
+        <td class="tr"><img th:src="@{../static/imgs/{goods_img}(goods_img=${goods.img})}" width=80% ></td>
+        <td class="tr">
+            <input type="text" name="goods_name" th:value="${goods.gname}">
+        </td>
+        <td class="tr">
+            <input type="text" name="goods_gdesc" th:value="${goods.gdesc}">
+        </td>
+        <td class="tr">
+            <input type="text" name="goods_price" th:value="${goods.price}">
+        </td>
+            <td class="tr" ><div th:if="${goods.state} eq 0">下架中</div><div th:if="${goods.state} eq 1">销售中</div></td>
+        <td class="tr"><a th:href="@{javascript:goodsdown({goods_id})(goods_id=${goods.id})}"><div th:if="${goods.state} eq 0">上架</div><div th:if="${goods.state} eq 1">下架</div></a></td>
+            <td class="tr"><button>更新</button></td>
+        </form>
+    </tr>
+</table>
+
+</body>
+</html>
+<script>
+    function send(id){
+        if(confirm("确认发货")){
+            window.location.href="/storemanage/send/"+id;
+        }
+    }
+</script>
+<script>
+    function goodsdown(id){
+        if(confirm("确认上架/下架")){
+            window.location.href="/store_goods_updatestate/"+id;
+        }
+    }
+</script>

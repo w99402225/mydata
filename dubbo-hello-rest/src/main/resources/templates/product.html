@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="../static/css/page.css" rel="stylesheet" />
+</head>
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/newsticker.js"></script>
+<script>
+    $(function() {
+        $(window).scroll(function() { //只要窗口滚动,就触发下面代码
+            var scrollt = document.documentElement.scrollTop + document.body.scrollTop; //获取滚动后的高度
+            if (scrollt > 100) { //判断滚动后高度超过200px,就显示
+                $("#back_top").fadeIn(400); //淡入
+            } else {
+                $("#back_top").stop().fadeOut(400); //如果返回或者没有超过,就淡出.必须加上stop()停止之前动画,否则会出现闪动
+            }
+        });
+        $("#back_top").click(function() { //当点击标签的时候,使用animate在200毫秒的时间内,滚到顶部
+            $("html,body").animate({
+                scrollTop: "0px"
+            }, 200);
+        });
+    });
+</script>
+<script type="text/javascript">
+    window.onload = function showTable() {
+        var tablename = document.getElementById("oTable");
+
+        var oRows = tablename.getElementsByTagName("td");
+        for (var i = 0; i < oRows.length; i++) {
+            if (oRows[i].id == "tdyes") {
+                continue;
+            }
+            oRows[i].onmouseover = function() {
+                this.style.backgroundColor = "#a5e5aa";
+            }
+            oRows[i].onmouseout = function() {
+                this.style.backgroundColor = "coral";
+            }
+        }
+    }
+</script>
+<body>
+<!-- 基本部分-->
+<div id="back_top">
+    <img src="../static/img/backtotop.png" />
+</div>
+<div id="tree-l"><img src="../static/img/headtree_l.png"></div>
+<div id="tree-r"><img src="../static/img/headtree_r.png"></div>
+<div id="header" style="left: 253px;">
+    <img src="../static/img/logo.png" align="left" id="logo" />
+    <img src="../static/img/sb_rss.png" align="right" id="slogo" />
+    <img src="../static/img/sb_fb.png" align="right" id="slogo" />
+    <img src="../static/img/sb_google.png" align="right" id="slogo" />
+    <img src="../static/img/sb_twitter.png" align="right" id="slogo" />
+</div>
+<div align="center">
+    <div><img src="../static/img/titlesd.png" /></div>
+    <table width="100%" align="center" cellpadding="0px" cellspacing="1px" border="0px" id="oTable">
+        <tr>
+            <td width="70px" id="tdno"></td>
+            <td width="70px" id="tdno">
+                <a href="/home">
+                    <div class="mf">HOME</div>
+                </a>
+            </td>
+            <td width="70px" id="tdyes">
+                <div class="mf">PRODUCTS</div>
+            </td>
+            <td width="70px" id="tdno">
+                <a href="/cart/mycart">
+                    <div class="mf">CART</div>
+                </a>
+            </td>
+            <td width="70px" id="tdno">
+                <a href="/store">
+                    <div class="mf">STORE</div>
+                </a>
+            </td>
+            <td width="70px" id="tdno">
+                <a href="/user/userpage">
+                    <div class="mf">USER</div>
+                </a>
+            </td>
+            <td width="70px" id="tdno"></td>
+        </tr>
+    </table><br />
+    <!-- 基本部分结束-->
+    <iframe src="/goods/1" width="950px" height="10000px" name="topFrame"
+            scrolling="No"noresize="noresize"frameborder="0"id="topFrame"></iframe>
+</div>
+</body>
+</html>
