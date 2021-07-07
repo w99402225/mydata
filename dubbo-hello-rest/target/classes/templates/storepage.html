@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr th:each="store,storestat: ${storelist}">
+            <td>
+                <table width="923px" height="655px" border="10px" background="../static/imgs/kuang.png">
+                    <tr>
+                        <td align="center" width="300px"><img alt="imgs/0.jpg" th:src="@{../static/imgs/{img}(img=${store.simg})}" width="80%"/></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td align="left" width="400px"><span th:text="${store.sname}"></span></td>
+                                    <td align="center">
+
+                                    </td>
+                                </tr>
+                                <tr><td>店铺描述</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2" align="center"><a th:href="@{/storedetail/{store_id}(store_id=${store.id})}">进入店铺</a></td></tr>
+                </table>
+            </td>
+    </tr><tr>
+</tr>
+</table>
+</body>
+</html>

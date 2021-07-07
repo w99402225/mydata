@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/page.css" rel="stylesheet" />
+</head>
+<body>
+<h2>下单记录</h2>
+<table class="mypage">
+    <tr>
+        <th width="280">商品图</th>
+        <th width="80">商品名</th>
+        <th width="80">总价</th>
+        <th width="80">数量</th>
+        <th width="80">下单时间</th>
+        <th width="80">下单地址</th>
+        <th width="80">购买商家</th>
+        <th width="80">货物状态</th>
+    </tr>
+        <tr th:each="afford,affordstat: ${affordlist}">
+            <td class="tr"><img th:src="@{../static/imgs/{goods_img}(goods_img=${afford.goods_id.img})}" width=80% ></td>
+            <td class="tr" th:text="${afford.goods_id.gname}"></td>
+            <td class="tr"th:text="${afford.price}+'￥'"></td>
+            <td class="tr"th:text="${afford.amount}"></td>
+            <td class="tr"th:text="${afford.buytime}"></td>
+            <td class="tr"th:text="${afford.address}"></td>
+            <td class="tr"><a th:href="@{/storedetail/{store_id}(store_id=${afford.goods_id.stored.id})}"><span th:text="${afford.goods_id.stored.sname}"></span></a></td>
+            <td class="tr"><div th:if="${afford.state}==0">未发货</div> <div th:if="${afford.state}==1">已发货</div></td>
+        </tr>
+</table>
+
+<h2>修改地址</h2>
+<form action="/user/updateaddress" method="post">
+    <input type="hidden" name="id" th:value="${user.id}">
+    <span th:text="'用户名：'+${user.username}"></span>
+    <br>
+    <input type="text" name="address" placeholder="收货地址" width="400" th:value="${user.address}"><br>
+    <button>提交</button>
+</form>
+<h2>修改密码</h2>
+<form action="/user/updateuser" method="post">
+    <input type="hidden" name="id" th:value="${user.id}">
+    <span th:text="'用户名：'+${user.username}"></span>
+    <br>
+    <input type="password" name="password" placeholder="密码"><br>
+    <input type="password" name="repassword" placeholder="请确认密码">
+    <button>提交</button>
+</form>
+</body>
+</html>

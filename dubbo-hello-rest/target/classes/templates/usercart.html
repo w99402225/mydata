@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/css/page.css" rel="stylesheet" />
+</head>
+<body>
+<table class="mypage">
+    <tr>
+        <th width="280">商品图</th>
+        <th width="80">商品名</th>
+        <th width="80">单价</th>
+        <th width="80">数量</th>
+        <th width="80">小计</th>
+        <th colspan="2">操作</th>
+    </tr>
+        <tr th:each="cart,cartstat: ${cartlist}">
+            <td class="tr"><img src="../static/imgs/${cart.goods_id.img}" th:src="@{../static/imgs/{img}(img=${cart.goods_id.img})}" width=80% ></td>
+            <td class="tr"><span th:text="${cart.goods_id.gname}"></span></td>
+            <td class="tr"><span th:text="${cart.goods_id.price}+'￥'"></span></td>
+            <td class="tr">
+                <form action="/cart/updatecart">
+                    <input type="hidden" name="ucartid" th:value="${cart.id}">
+                    <input type="text" th:value="${cart.amount}" name="camount" size="8"><br>
+                    <input type="submit" value="修改">
+                </form>
+            </td>
+            <td class="tr" th:text="${cart.goods_id.price * cart.amount}+'￥'"></td>
+            <td class="tr"><a th:href="@{javascript:del({cart_id})(cart_id=${cart.id})}"><img alt="删除" src="../static/img/deletecart.png" height="30px"></a></td>
+            <td class="tr"><a th:href="@{javascript:afford({cart_id})(cart_id=${cart.id})}"><img alt="下单" src="../static/img/ordercart.png" height="20px"></a></td>
+        </tr>
+</table>
+</body>
+</html>
+<script>
+    function del(id){
+        if(confirm("确认删除")){
+            window.location.href="/cart/delcart/"+id;
+        }
+    }
+</script>
+<script>
+    function afford(id){
+        if(confirm("确认下单")){
+            window.location.href="/afford/addorder/"+id;
+        }
+    }
+</script>
